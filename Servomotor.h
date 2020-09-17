@@ -1,6 +1,10 @@
 #ifndef SERVOMOTOR_H 
 #define SERVOMOTOR_H 
 
+using namespace std;
+#include <iostream>
+
+
 class Servomotor
 {
 public:
