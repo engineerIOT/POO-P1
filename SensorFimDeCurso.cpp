@@ -26,19 +26,21 @@ void SensorFimDeCurso::testeSensorFimDeCurso() {
 
 	SensorFimDeCurso SensorFimDeCurso1;
 	SensorFimDeCurso SensorFimDeCurso2;
-	SensorFimDeCurso* ptrSensorFimDeCurso;
+	SensorFimDeCurso* ptr;
+	//SensorFimDeCurso* ptrSensorFimDeCurso2;
 
 	double _valueAnalogico1 = 0;
 	double _valueAnalogico2 = 1;
+	
+	ptr = &SensorFimDeCurso1;
+	ptr->getValue(_valueAnalogico1);
 
-	ptrSensorFimDeCurso = &SensorFimDeCurso1;
-	ptrSensorFimDeCurso->getValue(_valueAnalogico1);
-
-	ptrSensorFimDeCurso = &SensorFimDeCurso1;
-	ptrSensorFimDeCurso->getValue(_valueAnalogico2);
+	ptr = &SensorFimDeCurso1;
+	ptr->getValue(_valueAnalogico2);
 
 	cout << "Endereco:" << &SensorFimDeCurso1 << " Valor Analogico SensorFimDeCurso1 1:" << _valueAnalogico1 << endl;
 	cout << "Endereco:" << &SensorFimDeCurso2 << " Valor Analogico SensorFimDeCurso1 2:" << _valueAnalogico2 << endl;
-
+	ptr = 0;
+	
 
 }

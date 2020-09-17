@@ -36,6 +36,7 @@ void Point2D::testePoint2D() {
 	Point2D alpha; //criando instancia para um objeto do tipo Point2D
 	Point2D beta;  //criando instancia para um objeto do tipo Point2D
 	Point2D* ptr;  //criando ponteiro para um objeto do tipo Point2D
+	//Point2D* ptr2;  //criando ponteiro para um objeto do tipo Point2D
 
 	double x1 = 1.1;	//atribuindo valor para x1
 	double y1 = 2.5;	//atribuindo valor para y1
@@ -59,4 +60,5 @@ void Point2D::testePoint2D() {
 	cout << "Endereco:" << &beta << " x2:" << x2 << "" << " y2:" << y2 << endl;
 
 	ptr = 0;
+	
 }

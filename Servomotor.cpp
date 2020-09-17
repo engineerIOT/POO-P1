@@ -34,17 +34,18 @@ void Servomotor::testeServomotor() {
 	Servomotor servomotor1;
 	Servomotor servomotor2;
 	
-	Servomotor* ptrServomotor;
+	Servomotor* ptr;
+	//Servomotor* ptrServomotor2;
 
 	double _valueAnalogico1 = 500;
 	double _valueAnalogico2 = 1024;
 	
 
-	ptrServomotor = &servomotor1;
-	ptrServomotor->setValue(_valueAnalogico1);
+	ptr = &servomotor1;
+	ptr->setValue(_valueAnalogico1);
 
-	ptrServomotor = &servomotor2;
-	ptrServomotor->setValue(_valueAnalogico2);
+	ptr = &servomotor2;
+	ptr->setValue(_valueAnalogico2);
 
 	cout << "Endereco:" << &servomotor1 << " Valor Analogico Servomotor 1:" << _valueAnalogico1 << endl;
 	cout << "Endereco:" << &servomotor2 << " Valor Analogico Servomotor 2:" << _valueAnalogico2 << endl;
@@ -53,18 +54,21 @@ void Servomotor::testeServomotor() {
 	
 	Servomotor servomotor3;
 	Servomotor servomotor4;
-	//Servomotor* ptrServomotor;
+	//Servomotor* ptrServomotor3;
+	//Servomotor* ptrServomotor4;
 
 	double _valueAnalogico3 = 777;
 	double _valueAnalogico4 = 888;
 
 	Servomotor(_valueAnalogico3, _valueAnalogico4);
-	ptrServomotor = &servomotor3;
-	ptrServomotor->setValue(_valueAnalogico3);
-	ptrServomotor = &servomotor4;
-	ptrServomotor->setValue(_valueAnalogico4);
+	ptr = &servomotor3;
+	ptr->setValue(_valueAnalogico3);
+	ptr = &servomotor4;
+	ptr->setValue(_valueAnalogico4);
 
 	cout << "Endereco:" << &servomotor3 << " Valor Analogico Servomotor 3:" << _valueAnalogico3 << endl;
 	cout << "Endereco:" << &servomotor4 << " Valor Analogico Servomotor 4:" << _valueAnalogico4 << endl;
+
+	ptr = 0;
 
 }
