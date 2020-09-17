@@ -1,5 +1,7 @@
 #include "Point2D.h"
 #include "Servomotor.h"
+#include "SensorFimDeCurso.h"
+
 
 int main(){    
 
@@ -14,6 +16,10 @@ int main(){
 	
 	Servomotor testeServomotor;
 	testeServomotor.testeServomotor();
+
+	SensorFimDeCurso testeSensorFimDeCurso;
+	testeSensorFimDeCurso.testeSensorFimDeCurso();
+
 		
 	return 0;
 }
