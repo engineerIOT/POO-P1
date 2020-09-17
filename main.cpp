@@ -2,7 +2,9 @@
 #include "Servomotor.h"
 #include "SensorFimDeCurso.h"
 
-
+Point2D* testepoint2D;
+Servomotor* testeServomotor;
+SensorFimDeCurso* testeSensorFimDeCurso;
 int main(){    
 
 	//1. criar instancia para dois objetos
@@ -11,14 +13,10 @@ int main(){
 	//4. printar
 	//5. zerar ponteiro
 
-	Point2D testepoint2D;
-	testepoint2D.testePoint2D();
 	
-	Servomotor testeServomotor;
-	testeServomotor.testeServomotor();
-
-	SensorFimDeCurso testeSensorFimDeCurso;
-	testeSensorFimDeCurso.testeSensorFimDeCurso();
+	testepoint2D->testePoint2D();
+	testeServomotor->testeServomotor();
+	testeSensorFimDeCurso->testeSensorFimDeCurso();
 
 		
 	return 0;

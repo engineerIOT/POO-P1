@@ -26,16 +26,16 @@ void Servomotor::testeServomotor() {
 
 	Servomotor servomotor1;
 	Servomotor servomotor2;
-	Servomotor* ptr;
+	Servomotor* ptrServomotor;
 
 	double _valueAnalogico1 = 500;
 	double _valueAnalogico2 = 1024;
 
-	ptr = &servomotor1;
-	ptr->setValue(_valueAnalogico1);
+	ptrServomotor = &servomotor1;
+	ptrServomotor->setValue(_valueAnalogico1);
 
-	ptr = &servomotor2;
-	ptr->setValue(_valueAnalogico2);
+	ptrServomotor = &servomotor2;
+	ptrServomotor->setValue(_valueAnalogico2);
 
 	cout << "Endereco:" << &servomotor1 << " Valor Analogico Servomotor 1:" << _valueAnalogico1 << endl;
 	cout << "Endereco:" << &servomotor2 << " Valor Analogico Servomotor 2:" << _valueAnalogico2 << endl;
