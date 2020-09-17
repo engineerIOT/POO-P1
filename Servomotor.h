@@ -10,12 +10,14 @@ class Servomotor
 public:
 	Servomotor();
 	Servomotor(double _value);
+	Servomotor(double _value, double _value2);
 	void setValue(double _value);
 	double _value() const;
 	void testeServomotor();
 
 private:
 	double _val;
+	double _val2;
 
 };
 

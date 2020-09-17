@@ -18,6 +18,11 @@ int main(){
 	testeServomotor->testeServomotor();
 	testeSensorFimDeCurso->testeSensorFimDeCurso();
 
-		
+	delete testeSensorFimDeCurso;
+	delete testeServomotor;
+	delete testepoint2D;
+	
+	
+
 	return 0;
 }
