@@ -5,7 +5,8 @@ Point2D::Point2D() {
 	yVal = 0.0;
 }
 
-Point2D::Point2D(double x, double y) {
+Point2D::Point2D(double x, double y) : xVal(x), yVal(y) {
+	cout << "(" << this << ") x=(" << xVal << ") " << " y=(" << yVal << ")" << endl;
 	xVal = x;
 	yVal = y;
 }

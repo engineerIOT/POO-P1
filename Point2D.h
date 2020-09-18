@@ -7,6 +7,7 @@ using namespace std;
 class Point2D
 {
 public: 
+	//Point2D(Point2D* p) { } //ponteiro para a uncao empregada (f)
 	Point2D();
 	Point2D(double x, double y);
 	void setX(double x);
