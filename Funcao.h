@@ -3,6 +3,8 @@
 using namespace std;
 
 
+
+
 class Funcao {				//Uma classe abstrata que serve de modelo para outras classes.
 public:
 	Funcao(Funcao* f) { } //ponteiro para a uncao empregada (f)
@@ -12,7 +14,7 @@ public:
 	virtual double operator()(double x) = 0;
 
 
-	static double integrar(Funcao* f, double x0, double x1, double step) {	// método estático 
+	/*static double integrar(Funcao* f, double x0, double x1, double step) {	// método estático 
 		
 		double _operatorX0;
 		double _operatorX1;
@@ -36,6 +38,7 @@ public:
 
 
 	}
+	*/
 
 private:
 

@@ -4,7 +4,8 @@ SensorFimDeCurso::SensorFimDeCurso() {
 	_val = 0;
 }
 
-SensorFimDeCurso::SensorFimDeCurso(double _value) {
+SensorFimDeCurso::SensorFimDeCurso(double _value) : _val(_value) {
+	cout << "(" << this << ") SensorFimDeCurso=(" << _val << ") " << endl;
 	_val = _value;
 }
 
