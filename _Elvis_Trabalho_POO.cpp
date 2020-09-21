@@ -1,16 +1,181 @@
 #include <iostream>
+#include <vector>
 using namespace std;
 
-class MotorDePasso
+
+class MaquinaDeEstado
+{
+public:
+    MaquinaDeEstado() { /*cout << this << endl;*/ }
+    MaquinaDeEstado(const MaquinaDeEstado& other) { cout << "Base(Base&)" << endl; }
+    explicit MaquinaDeEstado(double _value) :value(_value) { cout << "(" << this << ")  SensorFimdeCurso = (" << value << ") " << endl; }
+
+private:
+    double value;
+};
+
+class ControleMaquinaDeEstado : MaquinaDeEstado
+{
+public:
+    // Inherit all constructors from Base
+    using MaquinaDeEstado::MaquinaDeEstado;
+
+
+private:
+
+};
+
+
+class SensorFimdeCurso 
+{
+public:
+        
+    SensorFimdeCurso() { /*cout << this << endl;*/ }
+    SensorFimdeCurso(const SensorFimdeCurso& other) { cout << "Base(Base&)" << endl; }
+    explicit SensorFimdeCurso(double _value) :value(_value) { cout << "(" << this << ")  SensorFimdeCurso = (" << value << ") " << endl; }
+    double estadoSensor(double _value) {
+        cout << "(" << this << ")  SensorFimdeCurso = (" << _value << ") " << endl;
+        return (_value);
+    }
+    void testValSensors(int estado) { 
+
+        /*O estado 1 analisa as ligações da fisicas da maquina*/
+        if (estado == 1) { 
+        SensorFimdeCurso sensorX1;
+        SensorFimdeCurso sensorX2;
+        SensorFimdeCurso sensorY1;
+        SensorFimdeCurso sensorY2;
+
+        SensorFimdeCurso* ptr;
+
+        ptr = &sensorX1;
+        double valSensorX1 = ptr->estadoSensor(0);
+
+        ptr = &sensorX2;
+        double valSensorX2 = ptr->estadoSensor(0);
+
+        ptr = &sensorY1;
+        double valSensorY1 = ptr->estadoSensor(0);
+
+        ptr = &sensorY2;
+        double valSensorY2 = ptr->estadoSensor(0);
+
+        //INICIO X
+        if (valSensorX1 == 0 && valSensorX2 == 0) {
+            cout << "Ativar o Motor eixo X para a esquerda" << endl; 
+          
+            
+
+        }
+
+        if (valSensorX1 == 0 && valSensorX2 == 1) {
+            cout << "Verificar ligacoes porque o sentido do Motor do eixo X pode estar invertido" << endl; 
+        }
+
+        if (valSensorX1 == 1 && valSensorX2 == 0) {
+            cout << "Desativar o Motor eixo X" << endl; 
+        }
+
+        if (valSensorX1 == 1 && valSensorX2 == 1) {
+            cout << "Desativar o Motor eixo X" << endl; 
+            cout << "Verificar ligacoes porque o sentido do Motor do eixo X pode estar invertido" << endl;
+        }
+
+        //FIM X
+
+
+       //INICIO Y
+        if (valSensorY1 == 0 && valSensorY2 == 0) {
+            cout << "Ativar o Motor eixo Y para a esquerda" << endl;
+        }
+
+        if (valSensorY1 == 0 && valSensorY2 == 1) {
+            cout << "Verificar ligacoes porque o sentido do Motor do eixo Y pode estar invertido" << endl;
+        }
+
+        if (valSensorY1 == 1 && valSensorY2 == 0) {
+            cout << "Desativar o Motor eixo Y" << endl;
+        }
+
+        if (valSensorY1 == 1 && valSensorY2 == 1) {
+            cout << "Desativar o Motor eixo Y" << endl;
+            cout << "Verificar ligacoes porque o sentido do Motor do eixo Y pode estar invertido" << endl;
+        }
+
+        //FIM Y
+
+        }
+    
+    }
+    
+private:
+    double value;
+};
+
+class ControleSensorFimdeCurso : SensorFimdeCurso
+{
+public:
+    // Inherit all constructors from Base
+    using SensorFimdeCurso::SensorFimdeCurso;
+
+
+private:
+
+};
+
+
+
+
+
+class MotorDePasso 
 {
 public:
     MotorDePasso() { /*cout << this << endl;*/ }
     MotorDePasso(const MotorDePasso& other) { cout << "Base(Base&)" << endl; }
-    explicit MotorDePasso(double _tempo, double _numPassos) :tempoDePasso(_tempo), numPassos(_numPassos) { { cout << "(" << this << ")  = (" << tempoDePasso << ") angle = (" << numPassos << ") " << endl; } }
+    explicit MotorDePasso(int _id, double _tempo, double _numPassos) : id(_id), tempoDePasso(_tempo), numPassos(_numPassos) { { cout << "(" << this << ") ID = (" << id << ") tempoDePasso = (" << tempoDePasso << ") angle = (" << numPassos << ") " << endl; } }
+    void passo(int num) {
+        vector<int> g1;
+        vector<char> g2;
+
+        for (int i = 1; i <= 4; i++)
+
+            g1.push_back(i);
+
+        for (char j = '1'; j <= '4'; j++)
+            g2.push_back(j);
+
+
+        //cout << "I: " << endl;
+        for (auto j = g2.begin(); j != g2.end(); ++j) {
+            cout << "Passo:" << *j << " " << endl;
+
+
+            for (auto i = g1.begin(); i != g1.end(); ++i) {
+                cout << "IN" << *i << " " << endl;
+
+
+            }
+        
+       
+        }
+        cout << "g1:" << g1[0] << g1[1] << g1[2] << g1[3] << endl; //pega o elemento
+        cout << "g2:" << g2[0] << g2[1] << g2[2] << g2[3]; //pega o elemento
+
+        //cout << "J: " << endl;
+     
+
+       
+        
+    };
+
+   
+    
+
 
 private:
     double tempoDePasso;
     double numPassos;
+    double id;
    
 
 };
@@ -144,17 +309,10 @@ int main()
                
                RETORNAR AO PRIMEIRO ESTADO
     */
+    MotorDePasso MotorDePasso;
+    MotorDePasso.passo(10);
 
 
-
-
-    ControleMotorDePasso motordepasso1(1800,10);
-    ControleMotorDePasso motordepasso2(1800, 10);
-    ControleServo servomotor1(1024, 100);
-    ControleServo servomotor2(500, 50);
-    ControleCoordenadas coordenadaorigem(0,0);
-    ControleCoordenadas coordenadadestino(10, 10); 
-    
 
     
 }
