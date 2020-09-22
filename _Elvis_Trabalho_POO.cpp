@@ -133,7 +133,74 @@ public:
     MotorDePasso() { /*cout << this << endl;*/ }
     MotorDePasso(const MotorDePasso& other) { cout << "Base(Base&)" << endl; }
     explicit MotorDePasso(int _id, double _tempo, double _numPassos) : id(_id), tempoDePasso(_tempo), numPassos(_numPassos) { { cout << "(" << this << ") ID = (" << id << ") tempoDePasso = (" << tempoDePasso << ") angle = (" << numPassos << ") " << endl; } }
+    
     void passo(int num) {
+      
+
+        const int tam = 4;
+        vector <int> v1;
+        vector <int> v2;
+        vector <int> v3;
+        vector <int> v4;
+
+        int passo1[tam] = {0,0,0,0};
+        int passo2[tam] = {1,0,0,1};
+        int passo3[tam] = {1,0,0,1};
+        int passo4[tam] = {1,0,0,1};
+        
+
+        if (num == 0) {
+
+            for (int k = 0; k < tam; k++)
+                v1.push_back(passo1[k]);
+
+            for (auto k = v1.begin(); k != v1.end(); k++) {
+                cout << "Passo1:" << *k << " " << endl;
+            }
+
+       }
+
+        
+        if (num == 1) {
+
+            for (int k = 0; k < tam; k++)
+                v2.push_back(passo2[k]);
+
+            for (auto k = v2.begin(); k != v2.end(); k++) {
+                cout << "Passo2:" << *k << " " << endl;
+            }
+        }
+        
+        if (num == 2) {
+
+            for (int k = 0; k < tam; k++)
+                v3.push_back(passo3[k]);
+
+            for (auto k = v3.begin(); k != v3.end(); k++) {
+                cout << "Passo3:" << *k << " " << endl;
+            }
+        }
+
+        if (num == 3) {
+
+            for (int k = 0; k < tam; k++)
+                v4.push_back(passo4[k]);
+
+            for (auto k = v4.begin(); k != v4.end(); k++) {
+                cout << "Passo4:" << *k << " " << endl;
+            }
+
+        }
+    
+       
+
+       
+
+        
+
+        /*
+        * 
+        * 
         vector<int> g1;
         vector<char> g2;
 
@@ -143,8 +210,6 @@ public:
 
         for (char j = '1'; j <= '4'; j++)
             g2.push_back(j);
-
-
         //cout << "I: " << endl;
         for (auto j = g2.begin(); j != g2.end(); ++j) {
             cout << "Passo:" << *j << " " << endl;
@@ -164,6 +229,7 @@ public:
         //cout << "J: " << endl;
      
 
+        */
        
         
     };
@@ -310,7 +376,24 @@ int main()
                RETORNAR AO PRIMEIRO ESTADO
     */
     MotorDePasso MotorDePasso;
-    MotorDePasso.passo(10);
+    int NumPassos = 4;
+    int npasso = 0;
+
+            for (int i = 0; i <= NumPassos; i++) {
+            cout << "npasso:" << npasso << endl;
+
+            if (npasso > 4) {
+                npasso = 1;
+            }
+            MotorDePasso.passo(npasso);
+            npasso++;
+        }
+            MotorDePasso.passo(0); //incluir esse ultimo para  desativar as bobinas após o término dos NumPassos
+
+
+  
+
+    
 
 
 
