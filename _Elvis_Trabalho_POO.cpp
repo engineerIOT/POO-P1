@@ -134,7 +134,8 @@ public:
     MotorDePasso(const MotorDePasso& other) { cout << "Base(Base&)" << endl; }
     explicit MotorDePasso(int _id, double _tempo, double _numPassos) : id(_id), tempoDePasso(_tempo), numPassos(_numPassos) { { cout << "(" << this << ") ID = (" << id << ") tempoDePasso = (" << tempoDePasso << ") angle = (" << numPassos << ") " << endl; } }
     
-    void passo(int num) {
+
+    void passo(int num, int modo) {
       
 
         const int tam = 4;
@@ -142,20 +143,37 @@ public:
         vector <int> v2;
         vector <int> v3;
         vector <int> v4;
+        vector <int> Fase(tam);
+       
+        int passo1Serie[tam] = {0,0,0,0};
+        int passo2Serie[tam] = {1,0,0,1};
+        int passo3Serie[tam] = {1,0,0,1};
+        int passo4Serie[tam] = {1,0,0,1};
 
-        int passo1[tam] = {0,0,0,0};
-        int passo2[tam] = {1,0,0,1};
-        int passo3[tam] = {1,0,0,1};
-        int passo4[tam] = {1,0,0,1};
+
+        int passo1Paralelo[tam] = { 1,1,1,1 };
+        int passo2Paralelo[tam] = { 1,1,1,1 };
+        int passo3Paralelo[tam] = { 1,1,1,1 };
+        int passo4Paralelo[tam] = { 1,1,1,1 };
+
+        //int modo = 2;
         
 
         if (num == 0) {
 
             for (int k = 0; k < tam; k++)
-                v1.push_back(passo1[k]);
+                if (modo == 1) {
+                    v1.push_back(passo1Serie[k]);
+            }
+
+                else if(modo ==2) {
+                    v1.push_back(passo1Paralelo[k]);
+
+                }
+                
 
             for (auto k = v1.begin(); k != v1.end(); k++) {
-                cout << "Passo1:" << *k << " " << endl;
+                cout << "Passo0:" << *k << " " << endl;
             }
 
        }
@@ -164,73 +182,51 @@ public:
         if (num == 1) {
 
             for (int k = 0; k < tam; k++)
-                v2.push_back(passo2[k]);
+                if (modo == 1) {
+                    v2.push_back(passo2Serie[k]);
+                }
+
+                else if (modo == 2) {
+                    v2.push_back(passo2Paralelo[k]);
+                }
 
             for (auto k = v2.begin(); k != v2.end(); k++) {
-                cout << "Passo2:" << *k << " " << endl;
+                cout << "Passo1:" << *k << " " << endl;
             }
         }
         
         if (num == 2) {
 
             for (int k = 0; k < tam; k++)
-                v3.push_back(passo3[k]);
+                if (modo == 1) {
+                    v3.push_back(passo3Serie[k]);
+                }
+
+                else if (modo == 2) {
+                    v3.push_back(passo3Paralelo[k]);
+                }
 
             for (auto k = v3.begin(); k != v3.end(); k++) {
-                cout << "Passo3:" << *k << " " << endl;
+                cout << "Passo2:" << *k << " " << endl;
             }
         }
 
         if (num == 3) {
 
             for (int k = 0; k < tam; k++)
-                v4.push_back(passo4[k]);
+                if (modo == 1) {
+                    v4.push_back(passo4Serie[k]);
+                }
+
+                else if (modo == 2) {
+                    v4.push_back(passo4Paralelo[k]);
+                }
 
             for (auto k = v4.begin(); k != v4.end(); k++) {
-                cout << "Passo4:" << *k << " " << endl;
+                cout << "Passo3:" << *k << " " << endl;
             }
 
         }
-    
-       
-
-       
-
-        
-
-        /*
-        * 
-        * 
-        vector<int> g1;
-        vector<char> g2;
-
-        for (int i = 1; i <= 4; i++)
-
-            g1.push_back(i);
-
-        for (char j = '1'; j <= '4'; j++)
-            g2.push_back(j);
-        //cout << "I: " << endl;
-        for (auto j = g2.begin(); j != g2.end(); ++j) {
-            cout << "Passo:" << *j << " " << endl;
-
-
-            for (auto i = g1.begin(); i != g1.end(); ++i) {
-                cout << "IN" << *i << " " << endl;
-
-
-            }
-        
-       
-        }
-        cout << "g1:" << g1[0] << g1[1] << g1[2] << g1[3] << endl; //pega o elemento
-        cout << "g2:" << g2[0] << g2[1] << g2[2] << g2[3]; //pega o elemento
-
-        //cout << "J: " << endl;
-     
-
-        */
-       
         
     };
 
@@ -378,6 +374,11 @@ int main()
     MotorDePasso MotorDePasso;
     int NumPassos = 4;
     int npasso = 0;
+    int modoOperacao=1; //paralelo
+    int sentido=2;
+
+    if (sentido == 1) {
+   
 
             for (int i = 0; i <= NumPassos; i++) {
             cout << "npasso:" << npasso << endl;
@@ -385,18 +386,28 @@ int main()
             if (npasso > 4) {
                 npasso = 1;
             }
-            MotorDePasso.passo(npasso);
+            MotorDePasso.passo(npasso, modoOperacao);
             npasso++;
+            }
+            MotorDePasso.passo(0, modoOperacao); //incluir esse ultimo para  desativar as bobinas após o término dos NumPassos
+
+    }
+
+    else if (sentido == 2) {
+
+        for (int i = 0; i <= NumPassos; i++) {
+            cout << "Passo Atual:" << npasso << endl;
+
+            if (npasso < 1) {
+                npasso = 4;
+            }
+            MotorDePasso.passo(npasso, modoOperacao);
+            npasso--;
         }
-            MotorDePasso.passo(0); //incluir esse ultimo para  desativar as bobinas após o término dos NumPassos
+        MotorDePasso.passo(0, modoOperacao); //incluir esse ultimo para  desativar as bobinas após o término dos NumPassos
 
 
-  
+    }
 
-    
-
-
-
-    
 }
 
