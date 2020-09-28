@@ -9,10 +9,13 @@ class MaquinaDeEstado
 public:
     MaquinaDeEstado() { /*cout << this << endl;*/ }
     MaquinaDeEstado(const MaquinaDeEstado& other) { cout << "Base(Base&)" << endl; }
-    explicit MaquinaDeEstado(double _value) :value(_value) { cout << "(" << this << ")  SensorFimdeCurso = (" << value << ") " << endl; }
-
+    //explicit MaquinaDeEstado(double _value) :value(_value) { cout << "(" << this << ")  Estado = (" << value << ") " << endl; }
+    double defineEstado(double _value) {
+        cout << "(" << this << ")  MaquinaDeEstado = (" << _value << ") " << endl;
+        return (_value);
+    }
 private:
-    double value;
+    double _value;
 };
 
 class ControleMaquinaDeEstado : MaquinaDeEstado
@@ -38,7 +41,7 @@ public:
         cout << "(" << this << ")  SensorFimdeCurso = (" << _value << ") " << endl;
         return (_value);
     }
-    void testValSensors(int estado) { 
+    void testValSensors(int estado, int valorSensor1, int valorSensor2, int valorSensor3, int valorSensor4) {
 
         /*O estado 1 analisa as ligações da fisicas da maquina*/
         if (estado == 1) { 
@@ -50,16 +53,16 @@ public:
         SensorFimdeCurso* ptr;
 
         ptr = &sensorX1;
-        double valSensorX1 = ptr->estadoSensor(0);
+        double valSensorX1 = ptr->estadoSensor(valorSensor1);
 
         ptr = &sensorX2;
-        double valSensorX2 = ptr->estadoSensor(0);
+        double valSensorX2 = ptr->estadoSensor(valorSensor2);
 
         ptr = &sensorY1;
-        double valSensorY1 = ptr->estadoSensor(0);
+        double valSensorY1 = ptr->estadoSensor(valorSensor3);
 
         ptr = &sensorY2;
-        double valSensorY2 = ptr->estadoSensor(0);
+        double valSensorY2 = ptr->estadoSensor(valorSensor4);
 
         //INICIO X
         if (valSensorX1 == 0 && valSensorX2 == 0) {
@@ -144,6 +147,20 @@ public:
     MotorDePasso(const MotorDePasso& other) { cout << "Base(Base&)" << endl; }
     explicit MotorDePasso(int _id, double _tempo, double _numPassos, int _sentido) : id(_id), tempoDePasso(_tempo), numPassos(_numPassos), sentido(_sentido) {
         { cout << "(" << this << ") ID = (" << id << ") tempoDePasso = (" << tempoDePasso << ") angle = (" << numPassos << ") " << endl; }
+
+    }
+
+    void testeMotores() {
+        MotorDePasso motordepasso;
+        MotorDePasso motordepasso2;
+
+        MotorDePasso* ptr;
+
+        ptr = &motordepasso;
+        ptr->testeMotor(6, 1, 1);
+
+        ptr = &motordepasso2;
+        ptr->testeMotor(6, 1, 2);
 
     }
     
@@ -354,7 +371,13 @@ class Servomotor
 public:
     Servomotor() { /*cout << this << endl;*/ }
     Servomotor(const Servomotor& other) { cout << "Base(Base&)" << endl; }
-    explicit Servomotor(double _value, double _angle) : analogValue(_value), angle(_angle) { { cout << "(" << this << ") analogValue = (" << analogValue << ") angle = (" << angle << ") " << endl; } }
+    explicit Servomotor(double _value) : analogValue(_value)  { cout << "(" << this << ")  analogValue = (" << _value << ") " << endl;
+    }
+
+    double setValServo(double _value) {
+        cout << "(" << this << ")  Servomotor = (" << _value << ") " << endl;
+        return (_value);
+    }
 
 private:
     double analogValue;
@@ -381,7 +404,10 @@ public:
     Coordenadas() { /*cout << this << endl;*/ }
     Coordenadas(const Coordenadas& other) { cout << "Base(Base&)" << endl; }
     explicit Coordenadas(double _x, double _y) : x(_x),y(_y)  { { cout << "(" << this << ") coordenada x=(" << x << ")  coordenada y=(" << y << ") " << endl; } }
-    
+    void setValCoordenadas(double _x, double _y) { { cout << "(" << this << ") coordenada x=(" << _x << ")  coordenada y=(" << _y << ") " << endl; } }
+
+
+
 private:
     double x;
     double y;
@@ -400,6 +426,79 @@ private:
     
 };
 
+
+class Point2D
+{
+public:
+    //Point2D(Point2D* p) { } //ponteiro para a uncao empregada (f)
+    Point2D() {
+        xVal = 0.0;
+        yVal = 0.0;
+    }
+    Point2D(double x, double y) : xVal(x), yVal(y) {
+        cout << "(" << this << ") x=(" << xVal << ") " << " y=(" << yVal << ")" << endl;
+        xVal = x;
+        yVal = y;
+    }
+    void setX(double x) {
+        xVal = x;
+    }
+    void setY(double y) {
+        yVal = y;
+    }
+    
+    double x() const {
+        return xVal;
+    }
+   double y() const {
+        return yVal;
+    }
+
+   void testePoint2D() {
+
+       //1. criar instancia para dois objetos
+       //2. criar ponteiro
+       //3. atribuir valor
+       //4. printar
+       //5. zerar ponteiro
+
+       Point2D alpha; //criando instancia para um objeto do tipo Point2D
+       Point2D beta;  //criando instancia para um objeto do tipo Point2D
+       Point2D* ptr;  //criando ponteiro para um objeto do tipo Point2D
+       //Point2D* ptr2;  //criando ponteiro para um objeto do tipo Point2D
+
+       double x1 = 1.1;	//atribuindo valor para x1
+       double y1 = 2.5;	//atribuindo valor para y1
+       Point2D(x1, y1);	//atribuindo valor para o construtor
+
+
+       ptr = &alpha;		//
+       ptr->setX(x1);		//
+       ptr->setY(y1);		//
+
+
+       double x2 = 5.3;	//atribuindo valor para x2
+       double y2 = 6.5;	//atribuindo valor para y2
+       Point2D(x2, y2);	//atribuindo valor para o construtor
+
+       ptr = &beta;		//
+       ptr->setX(x2);		//
+       ptr->setY(y2);		//
+
+       cout << "Endereco:" << &alpha << " x1:" << x1 << "" << " y1:" << y1 << endl;
+       cout << "Endereco:" << &beta << " x2:" << x2 << "" << " y2:" << y2 << endl;
+
+       ptr = 0;
+  }
+
+
+private:
+    double xVal;
+    double yVal;
+
+};
+
+
 int main()
 {
 
@@ -408,6 +507,8 @@ int main()
     //SensorFimdeCurso deve ter função para saber o seu estado
     //Servomotor1 controla a posição da pinça no eixo horizontal
     //Servomotor2 controla a posição da pinça no eixo vertical
+    //MotorDePasso1 controla o posicionador no eixo X
+      //MotorDePasso1 controla o posicionador no eixo Y
     /*
     Primeiro Estado: Quando a maquina for inicializada, o posicionador deve ser levado até a posição de ORIGEM;
 
@@ -466,23 +567,136 @@ int main()
                RETORNAR AO PRIMEIRO ESTADO
     */
 
-    MotorDePasso motordepasso;
-    MotorDePasso motordepasso2;
 
-    MotorDePasso* ptr;
 
-    ptr = &motordepasso;
-    ptr->testeMotor(6, 1, 1);
+    //Primeiro Estado : Quando a maquina for inicializada, o posicionador deve ser levado até a posição de ORIGEM;
+    int botao = 1;
 
-    ptr = &motordepasso2;
-    ptr->testeMotor(6, 1, 2);
+    if (botao ==1) {
+        cout << "Maquina Inicializada" << endl;
+      
+        Point2D origem; //criando instancia para um objeto do tipo Point2D
+        Point2D beta;  //criando instancia para um objeto do tipo Point2D
+        Point2D* ptrCoordenadas;  //criando ponteiro para um objeto do tipo Point2D
+        //Point2D* ptr2;  //criando ponteiro para um objeto do tipo Point2D
+
+        double x1 = 5;	//atribuindo valor para x1
+        double y1 = 5;	//atribuindo valor para y1
+        Point2D(x1, y1);	//atribuindo valor para o construtor
+
+
+        ptrCoordenadas = &origem;		
+        ptrCoordenadas->setX(x1);		
+        ptrCoordenadas->setY(y1);		
+            
+
+        Servomotor servomotor1;
+        Servomotor servomotor2;
+        Servomotor * ptrServomotor;
+
+        ptrServomotor = &servomotor1;
+        double valServomotor1 = ptrServomotor->setValServo(500);
+
+        ptrServomotor = &servomotor2;
+        double valServomotor2 = ptrServomotor->setValServo(500);
+
+
+        MaquinaDeEstado estado1;
+        MaquinaDeEstado estado2;
+        MaquinaDeEstado estado3;    
+        MaquinaDeEstado estado4;
+        MaquinaDeEstado estado5;
+        MaquinaDeEstado* ptrEstado;
+       
+
+        ptrEstado = &estado1;
+        double valEstado1 = ptrEstado->defineEstado(1);
+
+        ptrEstado = &estado2;
+        double valEstado2 = ptrEstado->defineEstado(2);
+
+        ptrEstado = &estado3;
+        double valEstado3 = ptrEstado->defineEstado(3);
+
+        ptrEstado = &estado4;
+        double valEstado4 = ptrEstado->defineEstado(4);
+
+        ptrEstado = &estado5;
+        double valEstado5 = ptrEstado->defineEstado(5);
+
+       
+
+        SensorFimdeCurso sensorX1; 
+        SensorFimdeCurso sensorX2;
+        SensorFimdeCurso sensorY1;
+        SensorFimdeCurso sensorY2;
+        SensorFimdeCurso* ptr;
+
+ 
+
+        ptr = &sensorX1;
+        double valSensorX1 = ptr->estadoSensor(0);
+
+        ptr = &sensorX2;
+        double valSensorX2 = ptr->estadoSensor(0);
+
+        ptr = &sensorY1;
+        double valSensorY1 = ptr->estadoSensor(0);
+
+        ptr = &sensorY2;
+        double valSensorY2 = ptr->estadoSensor(0);
+
     
-    ControleMotorDePasso MotorDePassoa (6, 1, 1);
-    ControleMotorDePasso MotorDePassob(9, 1, 1);
-   
-    //MotorDePasso a(6, 1, 1);
-   // MotorDePasso b(6, 1, 1);
+        //ptr->testValSensors(1, valSensorX1, valSensorX2, valSensorY1, valSensorY2);
+        //delete ptr;
 
+
+        if (valEstado1 ==1) {
+            cout << "Estamos no estado 1" << endl;
+            //MotorDePasso do eixo X e o MotorDePasso do eixo Y devem ir para a posição inicial(0, 0)
+
+            valSensorX1 = ptr->estadoSensor(1); //SensorFimdeCurso X1 deve estar HIGH.
+            valSensorX2 = ptr->estadoSensor(0); //SensorFimdeCurso X2 deve estar LOW.
+            valSensorY1 = ptr->estadoSensor(1); //SensorFimdeCurso Y1 deve estar HIGH.
+            valSensorY2 = ptr->estadoSensor(0); //SensorFimdeCurso Y2 deve estar LOW.
+
+            valServomotor1 = ptrServomotor->setValServo(500);
+            valServomotor2 = ptrServomotor->setValServo(500);
+         
+
+                
+        }
+
+        if (valEstado2 == 2) {
+            cout << "Estamos no estado 2" << endl;
+
+        }
+
+        if (valEstado3 == 3) {
+            cout << "Estamos no estado 3" << endl;
+
+        }
+
+         if (valEstado4 == 4) {
+            cout << "Estamos no estado 4" << endl;
+
+        }
+
+        if (valEstado5 == 5) {
+            cout << "Estamos no estado 5" << endl;
+
+        }
+
+        
+
+      
+
+
+
+    }
+    //MotorDePasso do eixo X e o MotorDePasso do eixo Y devem ir para a posição inicial(0, 0)
+    
+    
 
 
 }
