@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+//#include <time.h>
 using namespace std;
 
 
@@ -131,13 +132,25 @@ class MotorDePasso
 {
 public:
     MotorDePasso() { /*cout << this << endl;*/ }
+
+    explicit MotorDePasso(int _numPassos, int _sentido, int _modoOperacao) : numPassos(_numPassos),sentido(_sentido), modoOperacao(_modoOperacao) {
+
+        cout << "(" << this << ") Numero de Passos = (" << numPassos << ") Sentido = (" << sentido << ") Modo de Operacao = (" << modoOperacao << ") " << endl;
+
+    MotorDePasso MotorDePasso;
+    MotorDePasso.testeMotor(_numPassos, _sentido, _modoOperacao);
+    }
+
     MotorDePasso(const MotorDePasso& other) { cout << "Base(Base&)" << endl; }
-    explicit MotorDePasso(int _id, double _tempo, double _numPassos) : id(_id), tempoDePasso(_tempo), numPassos(_numPassos) { { cout << "(" << this << ") ID = (" << id << ") tempoDePasso = (" << tempoDePasso << ") angle = (" << numPassos << ") " << endl; } }
+    explicit MotorDePasso(int _id, double _tempo, double _numPassos, int _sentido) : id(_id), tempoDePasso(_tempo), numPassos(_numPassos), sentido(_sentido) {
+        { cout << "(" << this << ") ID = (" << id << ") tempoDePasso = (" << tempoDePasso << ") angle = (" << numPassos << ") " << endl; }
+
+    }
     
-    void testeMotor(int NumPassos,int sentido, int modoOperacao) {
+    void testeMotor(int NumPassos, int sentido, int modoOperacao) {
 
         MotorDePasso MotorDePasso;
-
+        int var = 0;
         int npasso = 0;
         //int modoOperacao = 1; //paralelo
 
@@ -151,12 +164,16 @@ public:
 
                 if (npasso > 4) {
                     npasso = 1;
+
                 }
 
                 cout << "Passo Atual:" << npasso << endl;
 
                 MotorDePasso.passo(npasso, modoOperacao);
                 npasso++;
+
+                cout << "i:" << i << endl;
+
             }
             cout << "DESTIVANDO AS BOBINAS:" << endl;
             MotorDePasso.passo(0, modoOperacao); //incluir esse ultimo para  desativar as bobinas após o término dos NumPassos para evitar aquecimento das bobinas
@@ -185,11 +202,23 @@ public:
 
         }
 
-    }
+    };
 
+   
+    
+
+
+private:
+    double tempoDePasso;
+    double numPassos;
+    double id;
+    int sentido;
+    int modoOperacao;
+
+   
 
     void passo(int num, int modo) {
-      
+
 
         const int tam = 4;
         vector <int> v0;
@@ -198,12 +227,12 @@ public:
         vector <int> v3;
         vector <int> v4;
         vector <int> Fase(tam);
-       
-        int passo0Serie[tam] = {0,0,0,0};
-        int passo1Serie[tam] = {1,0,0,1};
-        int passo2Serie[tam] = {0,1,0,1};
-        int passo3Serie[tam] = {0,1,1,0};
-        int passo4Serie[tam] = {1,0,1,0};
+
+        int passo0Serie[tam] = { 0,0,0,0 };
+        int passo1Serie[tam] = { 1,0,0,1 };
+        int passo2Serie[tam] = { 0,1,0,1 };
+        int passo3Serie[tam] = { 0,1,1,0 };
+        int passo4Serie[tam] = { 1,0,1,0 };
 
 
         int passo0Paralelo[tam] = { 0,0,0,0 };
@@ -213,28 +242,28 @@ public:
         int passo4Paralelo[tam] = { 0,0,1,1 };
 
         //int modo = 2;
-        
+
 
         if (num == 0) {
-           
+
             for (int k = 0; k < tam; k++)
                 if (modo == 1) {
-                v0.push_back(passo0Serie[k]);
-            }
+                    v0.push_back(passo0Serie[k]);
+                }
 
-                else if(modo ==2) {
+                else if (modo == 2) {
                     v0.push_back(passo0Paralelo[k]);
 
                 }
-                
+
 
             for (auto k = v0.begin(); k != v0.end(); k++) {
                 cout << "Passo0:" << *k << " " << endl;
             }
 
-       }
+        }
 
-        
+
         if (num == 1) {
 
             for (int k = 0; k < tam; k++)
@@ -250,7 +279,7 @@ public:
                 cout << "Passo1:" << *k << " " << endl;
             }
         }
-        
+
         if (num == 2) {
 
             for (int k = 0; k < tam; k++)
@@ -290,7 +319,7 @@ public:
                 if (modo == 1) {
                     v4.push_back(passo4Serie[k]);
                 }
-                
+
 
                 else if (modo == 2) {
                     v4.push_back(passo4Paralelo[k]);
@@ -301,17 +330,8 @@ public:
             }
 
         }
-        
-    };
 
-   
-    
-
-
-private:
-    double tempoDePasso;
-    double numPassos;
-    double id;
+    }
    
 
 };
@@ -382,7 +402,7 @@ private:
 
 int main()
 {
-    
+
     //Maquina de estados
     //Motor de passo deve ter função para escolher o sentido de rotação
     //SensorFimdeCurso deve ter função para saber o seu estado
@@ -390,9 +410,9 @@ int main()
     //Servomotor2 controla a posição da pinça no eixo vertical
     /*
     Primeiro Estado: Quando a maquina for inicializada, o posicionador deve ser levado até a posição de ORIGEM;
-               
+
                MotorDePasso do eixo X e o MotorDePasso do eixo Y devem ir para a posição inicial (0,0)
-               SensorFimdeCurso X1 deve estar HIGH. 
+               SensorFimdeCurso X1 deve estar HIGH.
                SensorFimdeCurso X2 deve estar LOW.
                SensorFimdeCurso Y1 deve estar HIGH.
                SensorFimdeCurso Y2 deve estar LOW.
@@ -401,7 +421,7 @@ int main()
 
 
      Segundo Estado: Quando a maquina estiver no lugar de origem, o posicionador deve ser levado até a posição de CARREGAMENTO;
-                
+
                 MotorDePasso do eixo X e o MotorDePasso do eixo Y devem ir para a posição carregamento (5,5)
                 SensorFimdeCurso X1 pode estar LOW ou HIGH.
                 SensorFimdeCurso X2 deve estar LOW.
@@ -410,8 +430,8 @@ int main()
                 Servomotor1 deve ser setado para estar alinhado com a chapa de referência  (0 graus em relação a chapa)
                 Servomotor2 deve ser setado para controlar a altura da pinça em relação ao eixo vertical (nao deve chegar no limite)
 
-    Terceiro Estado: Quando a maquina estiver no lugar de Carregamento, o posicionador deve ser levado até a posição de CORTE; 
-                
+    Terceiro Estado: Quando a maquina estiver no lugar de Carregamento, o posicionador deve ser levado até a posição de CORTE;
+
                SensorDeBlister deve estar em HIGH para indicar que a pinça esta posicionada corretamente
                MotorDePasso do eixo X e o MotorDePasso do eixo Y devem ir para a posição carregamento (15,10)
                SensorFimdeCurso X1 deve estar LOW.
@@ -422,8 +442,8 @@ int main()
                Servomotor2 continua com o mesmo valor do estado 2
 
     Quarto Estado: Quando a maquina estiver no lugar de CORTE, o posicionador deve ser percorrer uma matriz;
-                
-               SensorDeBlister deve estar em LOW 
+
+               SensorDeBlister deve estar em LOW
                SensorFimdeCurso X1 deve estar LOW.
                SensorFimdeCurso X2 deve estar LOW.
                SensorFimdeCurso Y1 deve estar LOW.
@@ -434,7 +454,7 @@ int main()
                Servomotor2 continua com o mesmo valor do estado 2
 
      Quinto Estado: Quando a maquina estiver no lugar de CORTE e, terminar a iteração o posicionador deve ser levado para a posição de DESCARTE;
-               SensorDeBlister deve estar em LOW 
+               SensorDeBlister deve estar em LOW
                SensorFimdeCurso X1 deve estar LOW.
                SensorFimdeCurso X2 deve estar LOW.
                SensorFimdeCurso Y1 deve estar LOW.
@@ -442,67 +462,27 @@ int main()
                MotorDePasso do eixo X e o MotorDePasso do eixo Y devem ir para a posição de DESCARTE (45,45)
                Servomotor1 continua com o mesmo valor do estado 2
                Servomotor2 continua com o mesmo valor do estado 1
-               
+
                RETORNAR AO PRIMEIRO ESTADO
     */
-   /* MotorDePasso MotorDePasso;
-    int NumPassos = 8;
-    int npasso = 0;
-    int modoOperacao=1; //paralelo
 
-    int sentido = 1;
+    MotorDePasso motordepasso;
+    MotorDePasso motordepasso2;
 
-    if (sentido == 1) {
-            cout << "MOTOR PARA A ESQUERDA:" << endl;
-          
-            for (int i = 0; i < NumPassos; i++) {
-           
-        
-            if (npasso > 4){
-                npasso = 1;
-            }
+    MotorDePasso* ptr;
 
-            cout << "Passo Atual:" << npasso << endl;
+    ptr = &motordepasso;
+    ptr->testeMotor(6, 1, 1);
 
-            MotorDePasso.passo(npasso, modoOperacao);
-            npasso++;
-            }
-            cout << "DESTIVANDO AS BOBINAS:" << endl;
-            MotorDePasso.passo(0, modoOperacao); //incluir esse ultimo para  desativar as bobinas após o término dos NumPassos para evitar aquecimento das bobinas
+    ptr = &motordepasso2;
+    ptr->testeMotor(6, 1, 2);
+    
+    ControleMotorDePasso MotorDePassoa (6, 1, 1);
+    ControleMotorDePasso MotorDePassob(9, 1, 1);
+   
+    //MotorDePasso a(6, 1, 1);
+   // MotorDePasso b(6, 1, 1);
 
-    }
-
-    else if (sentido == 2) {
-        cout << "MOTOR PARA A DIREITA:" << endl;
-
-        for (int i = 0; i < NumPassos; i++) {
-          
-            npasso--;
-        
-        if (npasso < 0) {
-        npasso = 4;
-        }
-              
-        cout << "Passo Atual:" << npasso << endl;
-        
-        MotorDePasso.passo(npasso, modoOperacao);
-            
-        }
-       cout << "DESTIVANDO AS BOBINAS:" << endl;
-        MotorDePasso.passo(0, modoOperacao); //incluir esse ultimo para  desativar as bobinas após o término dos NumPassos para evitar aquecimento das bobinas
-
-
-    }
-
-    //testeMotor();
-    */
-
-MotorDePasso motordepasso;
-int numPassos=8;
-int sentido = 2;
-int modoDeOperacao=1;
-
-motordepasso.testeMotor(numPassos, sentido, modoDeOperacao);
 
 
 }
