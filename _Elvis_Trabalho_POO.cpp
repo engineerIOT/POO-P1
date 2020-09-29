@@ -1,5 +1,7 @@
 #include <iostream>
 #include <vector>
+#include <math.h>
+#define PI 3.14159265
 //#include <time.h>
 using namespace std;
 
@@ -151,6 +153,8 @@ public:
 
     }
 
+  
+
     void testeMotores() {
         MotorDePasso motordepasso;
         MotorDePasso motordepasso2;
@@ -213,7 +217,9 @@ public:
 
                 MotorDePasso.passo(npasso, modoOperacao);
 
+                cout << "i:" << i << endl;
             }
+
             cout << "DESTIVANDO AS BOBINAS:" << endl;
             MotorDePasso.passo(0, modoOperacao); //incluir esse ultimo para  desativar as bobinas após o término dos NumPassos para evitar aquecimento das bobinas
 
@@ -463,7 +469,7 @@ public:
         _p2 = p2;
     }
     double getDistancia() {
-        double somaDoQuadradoDosCatetos = pow(std::abs(_p1._x - _p2._x), 2) + pow(std::abs(_p1._y - _p2._y), 2);
+        double somaDoQuadradoDosCatetos = pow(abs(_p1._x - _p2._x), 2) + pow(abs(_p1._y - _p2._y), 2);
         return sqrt(somaDoQuadradoDosCatetos);
     }
 };
@@ -545,9 +551,15 @@ int main()
     if (botao ==1) {
         cout << "Maquina Inicializada" << endl;
       
+        Ponto ponto;
+        Ponto* ptrPonto;
+        ptrPonto = &ponto;
 
         MotorDePasso motordepasso;
         MotorDePasso motordepasso2;
+        MotorDePasso avancapassosX;
+        MotorDePasso avancapassosY;
+
 
         MotorDePasso* ptrMotorDepasso;
         ptrMotorDepasso = &motordepasso;
@@ -627,17 +639,35 @@ int main()
             valServomotor1 = ptrServomotor->setValServo(500);
             valServomotor2 = ptrServomotor->setValServo(500);
 
-            Ponto Atual(0, 0);
-            Ponto Destino(6, 6);
-            Distancia dist(Atual, Destino);
+            Ponto Origem(0, 0);
+            Ponto Destino(300, 300);
+            Distancia dist(Origem, Destino);
 
-            cout << "Distancia entre os pontos: " << dist.getDistancia() << endl;
+            cout << "Distancia entre os pontos: " << dist.getDistancia() <<" mm"<< endl;
 
+            double distancia= dist.getDistancia();
             double numPassos;
-            double passosFuso = 0.005;
-            numPassos = (dist.getDistancia()*200)/ passosFuso;
+            double resolucaoDaMaquina =0.05;
+            double revolucaoDoMotor = 200; //revolucao do motor 1.8 (200 passos por revolucao)
+            
+            double passosDoFuso = revolucaoDoMotor * resolucaoDaMaquina; //(mm/revolucao)
+            double passosPorMilimetro = revolucaoDoMotor/ passosDoFuso;
 
-            cout << "Passos convertidos " << numPassos << endl;
+            numPassos = revolucaoDoMotor / passosDoFuso ;
+           
+            cout << "Passos do Fuso: " << passosDoFuso << " mm"<< endl;
+            cout << "Passos por mm " << numPassos <<" steps/mm"<< endl;
+
+            //cout << "Valor do cosseno de theta: " << cos(300 / distancia) *(180 / PI) << " graus" << endl; ;
+            
+            double resultado = (4 * 300/numPassos);
+
+            cout << "resultado " << resultado << " mm" << endl;
+
+            avancapassosX.testeMotor(resultado* numPassos, 2, 1);
+
+           // avancapassosY.testeMotor(resultado, 2, 1);
+
 
 
                 
