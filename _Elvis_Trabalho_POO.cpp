@@ -18,7 +18,7 @@ private:
     double _value;
 };
 
-class ControleMaquinaDeEstado : MaquinaDeEstado
+/*class ControleMaquinaDeEstado : MaquinaDeEstado
 {
 public:
     // Inherit all constructors from Base
@@ -28,6 +28,7 @@ public:
 private:
 
 };
+*/
 
 
 class SensorFimdeCurso 
@@ -353,7 +354,7 @@ private:
 
 };
 
-class ControleMotorDePasso : MotorDePasso
+/*class ControleMotorDePasso : MotorDePasso
 {
 public:
     // Inherit all constructors from Base
@@ -363,6 +364,7 @@ public:
 private:
 
 };
+*/
 
 
 
@@ -385,7 +387,7 @@ private:
 
 };
 
-class ControleServo : Servomotor
+/*class ControleServo : Servomotor
 {
 public:
     // Inherit all constructors from Base
@@ -395,6 +397,7 @@ public:
 private:
 
 };
+*/
 
 
 
@@ -415,7 +418,7 @@ private:
 };
 
 
-class ControleCoordenadas : Coordenadas
+/*class ControleCoordenadas : Coordenadas
 {
 public:
     // Inherit all constructors from Base
@@ -425,77 +428,44 @@ public:
 private:
     
 };
+*/
 
 
-class Point2D
+
+struct Ponto
 {
-public:
-    //Point2D(Point2D* p) { } //ponteiro para a uncao empregada (f)
-    Point2D() {
-        xVal = 0.0;
-        yVal = 0.0;
-    }
-    Point2D(double x, double y) : xVal(x), yVal(y) {
-        cout << "(" << this << ") x=(" << xVal << ") " << " y=(" << yVal << ")" << endl;
-        xVal = x;
-        yVal = y;
-    }
-    void setX(double x) {
-        xVal = x;
-    }
-    void setY(double y) {
-        yVal = y;
-    }
-    
-    double x() const {
-        return xVal;
-    }
-   double y() const {
-        return yVal;
+    int _x;
+    int _y;
+
+    Ponto() {
+        _x = 0;
+        _y = 0;
     }
 
-   void testePoint2D() {
-
-       //1. criar instancia para dois objetos
-       //2. criar ponteiro
-       //3. atribuir valor
-       //4. printar
-       //5. zerar ponteiro
-
-       Point2D alpha; //criando instancia para um objeto do tipo Point2D
-       Point2D beta;  //criando instancia para um objeto do tipo Point2D
-       Point2D* ptr;  //criando ponteiro para um objeto do tipo Point2D
-       //Point2D* ptr2;  //criando ponteiro para um objeto do tipo Point2D
-
-       double x1 = 1.1;	//atribuindo valor para x1
-       double y1 = 2.5;	//atribuindo valor para y1
-       Point2D(x1, y1);	//atribuindo valor para o construtor
+    Ponto(int x, int y) {
+        _x = x;
+        _y = y;
+    }
+};
 
 
-       ptr = &alpha;		//
-       ptr->setX(x1);		//
-       ptr->setY(y1);		//
-
-
-       double x2 = 5.3;	//atribuindo valor para x2
-       double y2 = 6.5;	//atribuindo valor para y2
-       Point2D(x2, y2);	//atribuindo valor para o construtor
-
-       ptr = &beta;		//
-       ptr->setX(x2);		//
-       ptr->setY(y2);		//
-
-       cout << "Endereco:" << &alpha << " x1:" << x1 << "" << " y1:" << y1 << endl;
-       cout << "Endereco:" << &beta << " x2:" << x2 << "" << " y2:" << y2 << endl;
-
-       ptr = 0;
-  }
-
-
+class Distancia
+{
 private:
-    double xVal;
-    double yVal;
-
+    Ponto _p1;
+    Ponto _p2;
+public:
+    Distancia(Ponto p1, Ponto p2) {
+        setDados(p1, p2);
+    }
+    void setDados(Ponto p1, Ponto p2) {
+        _p1 = p1;
+        _p2 = p2;
+    }
+    double getDistancia() {
+        double somaDoQuadradoDosCatetos = pow(std::abs(_p1._x - _p2._x), 2) + pow(std::abs(_p1._y - _p2._y), 2);
+        return sqrt(somaDoQuadradoDosCatetos);
+    }
 };
 
 
@@ -575,21 +545,15 @@ int main()
     if (botao ==1) {
         cout << "Maquina Inicializada" << endl;
       
-        Point2D origem; //criando instancia para um objeto do tipo Point2D
-        Point2D beta;  //criando instancia para um objeto do tipo Point2D
-        Point2D* ptrCoordenadas;  //criando ponteiro para um objeto do tipo Point2D
-        //Point2D* ptr2;  //criando ponteiro para um objeto do tipo Point2D
 
-        double x1 = 5;	//atribuindo valor para x1
-        double y1 = 5;	//atribuindo valor para y1
-        Point2D(x1, y1);	//atribuindo valor para o construtor
+        MotorDePasso motordepasso;
+        MotorDePasso motordepasso2;
 
+        MotorDePasso* ptrMotorDepasso;
+        ptrMotorDepasso = &motordepasso;
+        ptrMotorDepasso = &motordepasso2;
 
-        ptrCoordenadas = &origem;		
-        ptrCoordenadas->setX(x1);		
-        ptrCoordenadas->setY(y1);		
-            
-
+        
         Servomotor servomotor1;
         Servomotor servomotor2;
         Servomotor * ptrServomotor;
@@ -654,7 +618,7 @@ int main()
         if (valEstado1 ==1) {
             cout << "Estamos no estado 1" << endl;
             //MotorDePasso do eixo X e o MotorDePasso do eixo Y devem ir para a posição inicial(0, 0)
-
+           
             valSensorX1 = ptr->estadoSensor(1); //SensorFimdeCurso X1 deve estar HIGH.
             valSensorX2 = ptr->estadoSensor(0); //SensorFimdeCurso X2 deve estar LOW.
             valSensorY1 = ptr->estadoSensor(1); //SensorFimdeCurso Y1 deve estar HIGH.
@@ -662,7 +626,19 @@ int main()
 
             valServomotor1 = ptrServomotor->setValServo(500);
             valServomotor2 = ptrServomotor->setValServo(500);
-         
+
+            Ponto Atual(0, 0);
+            Ponto Destino(6, 6);
+            Distancia dist(Atual, Destino);
+
+            cout << "Distancia entre os pontos: " << dist.getDistancia() << endl;
+
+            double numPassos;
+            double passosFuso = 0.005;
+            numPassos = (dist.getDistancia()*200)/ passosFuso;
+
+            cout << "Passos convertidos " << numPassos << endl;
+
 
                 
         }
