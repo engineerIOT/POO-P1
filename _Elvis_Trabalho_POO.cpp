@@ -153,7 +153,28 @@ public:
 
     }
 
-  
+    double avancaNPassos(double _value) {
+        cout << "(" << this << ")  avancaNPassos = (" << _value << ") " << endl;
+
+        double numPassos;
+        double resolucaoDaMaquina = 0.05;
+        double revolucaoDoMotor = 200; //revolucao do motor 1.8 (200 passos por revolucao)
+
+        double passosDoFuso = revolucaoDoMotor * resolucaoDaMaquina; //(mm/revolucao)
+        double passosPorMilimetro = revolucaoDoMotor / passosDoFuso;
+
+        numPassos = revolucaoDoMotor / passosDoFuso;
+
+        cout << "Passos do Fuso: " << passosDoFuso << " mm" << endl;
+        cout << "Passos por mm " << numPassos << " steps/mm" << endl;
+
+        //cout << "Valor do cosseno de theta: " << cos(300 / distancia) *(180 / PI) << " graus" << endl; ;
+
+        double resultado = (4 * 300 / numPassos);
+
+        cout << "resultado " << resultado << " mm" << endl;
+        return (resultado);
+    }
 
     void testeMotores() {
         MotorDePasso motordepasso;
@@ -639,13 +660,16 @@ int main()
             valServomotor1 = ptrServomotor->setValServo(500);
             valServomotor2 = ptrServomotor->setValServo(500);
 
+            int x = 300;
+            int y = 300;
+
             Ponto Origem(0, 0);
-            Ponto Destino(300, 300);
+            Ponto Destino(x, y);
             Distancia dist(Origem, Destino);
 
             cout << "Distancia entre os pontos: " << dist.getDistancia() <<" mm"<< endl;
 
-            double distancia= dist.getDistancia();
+           
             double numPassos;
             double resolucaoDaMaquina =0.05;
             double revolucaoDoMotor = 200; //revolucao do motor 1.8 (200 passos por revolucao)
@@ -660,13 +684,14 @@ int main()
 
             //cout << "Valor do cosseno de theta: " << cos(300 / distancia) *(180 / PI) << " graus" << endl; ;
             
-            double resultado = (4 * 300/numPassos);
+            double resultadox = (4 * x/numPassos);
+            double resultadoy = (4 * y/numPassos);
 
-            cout << "resultado " << resultado << " mm" << endl;
+            cout << "resultadox " << resultadox << " mm" << endl;
+            cout << "resultadoy " << resultadoy << " mm" << endl;
 
-            avancapassosX.testeMotor(resultado* numPassos, 2, 1);
-
-           // avancapassosY.testeMotor(resultado, 2, 1);
+            avancapassosX.testeMotor(resultadox* numPassos, 2, 1);
+            avancapassosY.testeMotor(resultadoy * numPassos, 1, 1);
 
 
 
