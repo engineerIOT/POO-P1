@@ -153,9 +153,12 @@ public:
 
     }
 
-    double avancaNPassos(double _value) {
-        cout << "(" << this << ")  avancaNPassos = (" << _value << ") " << endl;
+    void avancaNPassos(int x, int y) {
 
+        MotorDePasso avancapassosX;
+        MotorDePasso avancapassosY;
+
+     
         double numPassos;
         double resolucaoDaMaquina = 0.05;
         double revolucaoDoMotor = 200; //revolucao do motor 1.8 (200 passos por revolucao)
@@ -170,10 +173,15 @@ public:
 
         //cout << "Valor do cosseno de theta: " << cos(300 / distancia) *(180 / PI) << " graus" << endl; ;
 
-        double resultado = (4 * 300 / numPassos);
+        double resultadox = (4 * x / numPassos);
+        double resultadoy = (4 * y / numPassos);
 
-        cout << "resultado " << resultado << " mm" << endl;
-        return (resultado);
+        cout << "resultadox " << resultadox << " mm" << endl;
+        cout << "resultadoy " << resultadoy << " mm" << endl;
+
+        avancapassosX.testeMotor(resultadox * numPassos, 2, 1);
+        avancapassosY.testeMotor(resultadoy * numPassos, 1, 1);
+        
     }
 
     void testeMotores() {
@@ -578,8 +586,8 @@ int main()
 
         MotorDePasso motordepasso;
         MotorDePasso motordepasso2;
-        MotorDePasso avancapassosX;
-        MotorDePasso avancapassosY;
+        MotorDePasso avancapassos;
+     
 
 
         MotorDePasso* ptrMotorDepasso;
@@ -668,8 +676,7 @@ int main()
             Distancia dist(Origem, Destino);
 
             cout << "Distancia entre os pontos: " << dist.getDistancia() <<" mm"<< endl;
-
-           
+            /*
             double numPassos;
             double resolucaoDaMaquina =0.05;
             double revolucaoDoMotor = 200; //revolucao do motor 1.8 (200 passos por revolucao)
@@ -692,7 +699,8 @@ int main()
 
             avancapassosX.testeMotor(resultadox* numPassos, 2, 1);
             avancapassosY.testeMotor(resultadoy * numPassos, 1, 1);
-
+            */
+            avancapassos.avancaNPassos(x,y);
 
 
                 
