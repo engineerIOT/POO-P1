@@ -756,24 +756,42 @@ int main()
             valSensorY1 = ptr->estadoSensor(0); //SensorFimdeCurso Y1 deve estar LOW.
             valSensorY2 = ptr->estadoSensor(0); //SensorFimdeCurso Y2 deve estar LOW.
 
-            Ponto Estado3(15, 10);
+            int x4= 15;
+            int y4 = 10;
+            Ponto Estado3(x4, y4);
+            avancapassos.avancaNPassos(x4, y4);
+
           
             //Simulando uma cartela de comprimidos de 2 colunas por 4 linhas
             int linha1_x4=0;
             int linha1_y4=0;
+            Ponto Estado4Linha1(linha1_x4, linha1_y4); //posição de corte
+            Distancia dist1(Estado3, Estado4Linha1);
+            cout << "Distancia entre os pontos: " << dist1.getDistancia() << " mm" << endl;
+            avancapassos.avancaNPassos(linha1_x4, linha1_y4);
+           
             int linha2_x4=0;
             int linha2_y4=0;
+            Ponto Estado4Linha2(linha2_x4, linha2_y4); //posição de corte
+            Distancia dist2(Estado4Linha1, Estado4Linha2);
+            cout << "Distancia entre os pontos: " << dist2.getDistancia() << " mm" << endl;
+            avancapassos.avancaNPassos(linha2_x4, linha2_y4);
+            
             int linha3_x4=0;
             int linha3_y4=0;
+            Ponto Estado4Linha3(linha3_x4, linha3_y4); //posição de corte
+            Distancia dist3(Estado4Linha2, Estado4Linha3);
+            cout << "Distancia entre os pontos: " << dist3.getDistancia() << " mm" << endl;
+            avancapassos.avancaNPassos(linha3_x4, linha3_y4);
+           
             int linha4_x4=0;
             int linha4_y4=0;
+            Ponto Estado4Linha4(linha4_x4, linha4_y4); //posição de corte
+            Distancia dist4(Estado4Linha3, Estado4Linha4);
+            cout << "Distancia entre os pontos: " << dist4.getDistancia() << " mm" << endl;
+            avancapassos.avancaNPassos(linha4_x4, linha4_y4);
           
-
-            Ponto Estado4Linha1(linha1_x4, linha1_y4); //posição de corte
-            Distancia dist(Estado3, Estado4Linha1);
-            cout << "Distancia entre os pontos: " << dist.getDistancia() << " mm" << endl;
-            avancapassos.avancaNPassos(linha1_x4, linha1_y4);
-
+                     
             
         }
 
