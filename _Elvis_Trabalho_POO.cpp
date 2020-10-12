@@ -408,8 +408,9 @@ class Servomotor
 public:
     Servomotor() { /*cout << this << endl;*/ }
     Servomotor(const Servomotor& other) { cout << "Base(Base&)" << endl; }
-    explicit Servomotor(double _value) : analogValue(_value)  { cout << "(" << this << ")  analogValue = (" << _value << ") " << endl;
+   explicit Servomotor(double _value) : analogValue(_value)  { cout << "(" << this << ")  analogValue = (" << _value << ") " << endl;
     }
+    
 
     double setValServo(double _value) {
         cout << "(" << this << ")  Servomotor = (" << _value << ") " << endl;
@@ -417,6 +418,7 @@ public:
     }
 
 private:
+    
     double analogValue;
     double angle;
 
@@ -583,6 +585,7 @@ int main()
         Ponto ponto;
         Ponto* ptrPonto;
         ptrPonto = &ponto;
+     
 
         MotorDePasso motordepasso;
         MotorDePasso motordepasso2;
@@ -593,6 +596,7 @@ int main()
         MotorDePasso* ptrMotorDepasso;
         ptrMotorDepasso = &motordepasso;
         ptrMotorDepasso = &motordepasso2;
+      
 
         
         Servomotor servomotor1;
@@ -636,8 +640,7 @@ int main()
         SensorFimdeCurso sensorY1;
         SensorFimdeCurso sensorY2;
         SensorFimdeCurso* ptr;
-
- 
+        SensorFimdeCurso sensorBlister;
 
         ptr = &sensorX1;
         double valSensorX1 = ptr->estadoSensor(0);
@@ -650,6 +653,9 @@ int main()
 
         ptr = &sensorY2;
         double valSensorY2 = ptr->estadoSensor(0);
+
+        ptr = &sensorBlister;
+        double valSensorBlister = ptr->estadoSensor(0);
 
     
         //ptr->testValSensors(1, valSensorX1, valSensorX2, valSensorY1, valSensorY2);
@@ -668,39 +674,16 @@ int main()
             valServomotor1 = ptrServomotor->setValServo(500);
             valServomotor2 = ptrServomotor->setValServo(500);
 
-            int x = 300;
-            int y = 300;
-
+            int x1 = 0;
+            int y1 = 0;
+          
             Ponto Origem(0, 0);
-            Ponto Destino(x, y);
-            Distancia dist(Origem, Destino);
+            Ponto Estado1(x1, y1);
+            Distancia dist(Origem, Estado1);
 
             cout << "Distancia entre os pontos: " << dist.getDistancia() <<" mm"<< endl;
-            /*
-            double numPassos;
-            double resolucaoDaMaquina =0.05;
-            double revolucaoDoMotor = 200; //revolucao do motor 1.8 (200 passos por revolucao)
-            
-            double passosDoFuso = revolucaoDoMotor * resolucaoDaMaquina; //(mm/revolucao)
-            double passosPorMilimetro = revolucaoDoMotor/ passosDoFuso;
-
-            numPassos = revolucaoDoMotor / passosDoFuso ;
            
-            cout << "Passos do Fuso: " << passosDoFuso << " mm"<< endl;
-            cout << "Passos por mm " << numPassos <<" steps/mm"<< endl;
-
-            //cout << "Valor do cosseno de theta: " << cos(300 / distancia) *(180 / PI) << " graus" << endl; ;
-            
-            double resultadox = (4 * x/numPassos);
-            double resultadoy = (4 * y/numPassos);
-
-            cout << "resultadox " << resultadox << " mm" << endl;
-            cout << "resultadoy " << resultadoy << " mm" << endl;
-
-            avancapassosX.testeMotor(resultadox* numPassos, 2, 1);
-            avancapassosY.testeMotor(resultadoy * numPassos, 1, 1);
-            */
-            avancapassos.avancaNPassos(x,y);
+            avancapassos.avancaNPassos(x1,y1);
 
 
                 
@@ -709,21 +692,113 @@ int main()
         if (valEstado2 == 2) {
             cout << "Estamos no estado 2" << endl;
 
+            valSensorX1 = ptr->estadoSensor(0); //SensorFimdeCurso X1 deve estar LOW.
+            valSensorX2 = ptr->estadoSensor(0); //SensorFimdeCurso X2 deve estar LOW.
+            valSensorY1 = ptr->estadoSensor(0); //SensorFimdeCurso Y1 deve estar LOW.
+            valSensorY2 = ptr->estadoSensor(0); //SensorFimdeCurso Y2 deve estar LOW.
+
+            valServomotor1 = ptrServomotor->setValServo(0);
+            valServomotor2 = ptrServomotor->setValServo(1024);
+
+            int x2 = 5;
+            int y2 = 5;
+
+            Ponto Estado1(0, 0);
+            Ponto Estado2(x2, y2);
+            
+            Distancia dist(Estado1, Estado2);
+
+            cout << "Distancia entre os pontos: " << dist.getDistancia() << " mm" << endl;
+
+            avancapassos.avancaNPassos(x2, y2);
+
         }
 
         if (valEstado3 == 3) {
             cout << "Estamos no estado 3" << endl;
+
+            valSensorX1 = ptr->estadoSensor(0); //SensorFimdeCurso X1 deve estar LOW.
+            valSensorX2 = ptr->estadoSensor(0); //SensorFimdeCurso X2 deve estar LOW.
+            valSensorY1 = ptr->estadoSensor(0); //SensorFimdeCurso Y1 deve estar LOW.
+            valSensorY2 = ptr->estadoSensor(0); //SensorFimdeCurso Y2 deve estar LOW.
+
+            valServomotor1 = ptrServomotor->setValServo(0);
+            valServomotor2 = ptrServomotor->setValServo(1024);
+
+            int x3 = 15;
+            int y3 = 10;
+
+            Ponto Estado2(5, 5);
+            Ponto Estado3(x3, y3); //posição de corte
+
+            Distancia dist(Estado2, Estado3);
+
+            cout << "Distancia entre os pontos: " << dist.getDistancia() << " mm" << endl;
+
+            avancapassos.avancaNPassos(x3, y3);
+
+            valSensorBlister = ptr->estadoSensor(1); //SensorFimdeCurso Y2 deve estar LOW.
+            if (valSensorBlister == 1) {
+                cout << "Sensor de blister ativado" << endl;
+            }
+            else if (valSensorBlister == 0){
+                cout << "Sensor de blister desativado" << endl;
+            }
+
 
         }
 
          if (valEstado4 == 4) {
             cout << "Estamos no estado 4" << endl;
 
+            valSensorX1 = ptr->estadoSensor(0); //SensorFimdeCurso X1 deve estar LOW.
+            valSensorX2 = ptr->estadoSensor(0); //SensorFimdeCurso X2 deve estar LOW.
+            valSensorY1 = ptr->estadoSensor(0); //SensorFimdeCurso Y1 deve estar LOW.
+            valSensorY2 = ptr->estadoSensor(0); //SensorFimdeCurso Y2 deve estar LOW.
+
+            Ponto Estado3(15, 10);
+          
+            //Simulando uma cartela de comprimidos de 2 colunas por 4 linhas
+            int linha1_x4=0;
+            int linha1_y4=0;
+            int linha2_x4=0;
+            int linha2_y4=0;
+            int linha3_x4=0;
+            int linha3_y4=0;
+            int linha4_x4=0;
+            int linha4_y4=0;
+          
+
+            Ponto Estado4Linha1(linha1_x4, linha1_y4); //posição de corte
+            Distancia dist(Estado3, Estado4Linha1);
+            cout << "Distancia entre os pontos: " << dist.getDistancia() << " mm" << endl;
+            avancapassos.avancaNPassos(linha1_x4, linha1_y4);
+
+            
         }
 
         if (valEstado5 == 5) {
             cout << "Estamos no estado 5" << endl;
 
+            valSensorX1 = ptr->estadoSensor(0); //SensorFimdeCurso X1 deve estar LOW.
+            valSensorX2 = ptr->estadoSensor(0); //SensorFimdeCurso X2 deve estar LOW.
+            valSensorY1 = ptr->estadoSensor(0); //SensorFimdeCurso Y1 deve estar LOW.
+            valSensorY2 = ptr->estadoSensor(0); //SensorFimdeCurso Y2 deve estar LOW.
+
+            valServomotor1 = ptrServomotor->setValServo(500);
+            valServomotor2 = ptrServomotor->setValServo(500);
+
+            int x5 = 25;
+            int y5 = 25;
+
+            Ponto Estado4(5, 5);
+            Ponto Estado5(x5, y5); //posição de corte
+
+            Distancia dist(Estado4, Estado5);
+
+            cout << "Distancia entre os pontos: " << dist.getDistancia() << " mm" << endl;
+
+            avancapassos.avancaNPassos(x5, y5);
         }
 
         
