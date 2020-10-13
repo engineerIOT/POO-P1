@@ -5,6 +5,70 @@
 //#include <time.h>
 using namespace std;
 
+//Maquina de estados
+   //Motor de passo deve ter função para escolher o sentido de rotação
+   //SensorFimdeCurso deve ter função para saber o seu estado
+   //Servomotor1 controla a posição da pinça no eixo horizontal
+   //Servomotor2 controla a posição da pinça no eixo vertical
+   //MotorDePasso1 controla o posicionador no eixo X
+     //MotorDePasso1 controla o posicionador no eixo Y
+   /*
+   Primeiro Estado: Quando a maquina for inicializada, o posicionador deve ser levado até a posição de ORIGEM;
+
+              MotorDePasso do eixo X e o MotorDePasso do eixo Y devem ir para a posição inicial (0,0)
+              SensorFimdeCurso X1 deve estar HIGH.
+              SensorFimdeCurso X2 deve estar LOW.
+              SensorFimdeCurso Y1 deve estar HIGH.
+              SensorFimdeCurso Y2 deve estar LOW.
+              Servomotor1 deve estar na posição média em relação ao eixo horizontal
+              Servomotor2 deve estar na posição média em relação ao eixo horizontal
+
+
+    Segundo Estado: Quando a maquina estiver no lugar de origem, o posicionador deve ser levado até a posição de CARREGAMENTO;
+
+               MotorDePasso do eixo X e o MotorDePasso do eixo Y devem ir para a posição carregamento (5,5)
+               SensorFimdeCurso X1 pode estar LOW ou HIGH.
+               SensorFimdeCurso X2 deve estar LOW.
+               SensorFimdeCurso Y1 deve estar LOW.
+               SensorFimdeCurso Y2 pode estar LOW ou HIGH.
+               Servomotor1 deve ser setado para estar alinhado com a chapa de referência  (0 graus em relação a chapa)
+               Servomotor2 deve ser setado para controlar a altura da pinça em relação ao eixo vertical (nao deve chegar no limite)
+
+   Terceiro Estado: Quando a maquina estiver no lugar de Carregamento, o posicionador deve ser levado até a posição de CORTE;
+
+              SensorDeBlister deve estar em HIGH para indicar que a pinça esta posicionada corretamente
+              MotorDePasso do eixo X e o MotorDePasso do eixo Y devem ir para a posição carregamento (15,10)
+              SensorFimdeCurso X1 deve estar LOW.
+              SensorFimdeCurso X2 deve estar LOW.
+              SensorFimdeCurso Y1 deve estar LOW.
+              SensorFimdeCurso Y2 pode estar LOW ou HIGH.
+              Servomotor1 continua com o mesmo valor do estado 2
+              Servomotor2 continua com o mesmo valor do estado 2
+
+   Quarto Estado: Quando a maquina estiver no lugar de CORTE, o posicionador deve ser percorrer uma matriz;
+
+              SensorDeBlister deve estar em LOW
+              SensorFimdeCurso X1 deve estar LOW.
+              SensorFimdeCurso X2 deve estar LOW.
+              SensorFimdeCurso Y1 deve estar LOW.
+              SensorFimdeCurso Y2 pode estar LOW ou HIGH.
+              MotorDePasso do eixo X e o MotorDePasso do eixo Y devem SER SETADOS PARA PERCORRER UMA MATRIZ (X,Y) que a cada iteração aciona o
+              motor da FACA e seu SensorFimDeCursoFACA e, na ultima iteração
+              Servomotor1 continua com o mesmo valor do estado 2
+              Servomotor2 continua com o mesmo valor do estado 2
+
+    Quinto Estado: Quando a maquina estiver no lugar de CORTE e, terminar a iteração o posicionador deve ser levado para a posição de DESCARTE;
+              SensorDeBlister deve estar em LOW
+              SensorFimdeCurso X1 deve estar LOW.
+              SensorFimdeCurso X2 deve estar LOW.
+              SensorFimdeCurso Y1 deve estar LOW.
+              SensorFimdeCurso Y2 pode estar LOW ou HIGH.
+              MotorDePasso do eixo X e o MotorDePasso do eixo Y devem ir para a posição de DESCARTE (45,45)
+              Servomotor1 continua com o mesmo valor do estado 2
+              Servomotor2 continua com o mesmo valor do estado 1
+
+              RETORNAR AO PRIMEIRO ESTADO
+   */
 
 class MaquinaDeEstado
 {
@@ -509,70 +573,7 @@ public:
 int main()
 {
 
-    //Maquina de estados
-    //Motor de passo deve ter função para escolher o sentido de rotação
-    //SensorFimdeCurso deve ter função para saber o seu estado
-    //Servomotor1 controla a posição da pinça no eixo horizontal
-    //Servomotor2 controla a posição da pinça no eixo vertical
-    //MotorDePasso1 controla o posicionador no eixo X
-      //MotorDePasso1 controla o posicionador no eixo Y
-    /*
-    Primeiro Estado: Quando a maquina for inicializada, o posicionador deve ser levado até a posição de ORIGEM;
-
-               MotorDePasso do eixo X e o MotorDePasso do eixo Y devem ir para a posição inicial (0,0)
-               SensorFimdeCurso X1 deve estar HIGH.
-               SensorFimdeCurso X2 deve estar LOW.
-               SensorFimdeCurso Y1 deve estar HIGH.
-               SensorFimdeCurso Y2 deve estar LOW.
-               Servomotor1 deve estar na posição média em relação ao eixo horizontal
-               Servomotor2 deve estar na posição média em relação ao eixo horizontal
-
-
-     Segundo Estado: Quando a maquina estiver no lugar de origem, o posicionador deve ser levado até a posição de CARREGAMENTO;
-
-                MotorDePasso do eixo X e o MotorDePasso do eixo Y devem ir para a posição carregamento (5,5)
-                SensorFimdeCurso X1 pode estar LOW ou HIGH.
-                SensorFimdeCurso X2 deve estar LOW.
-                SensorFimdeCurso Y1 deve estar LOW.
-                SensorFimdeCurso Y2 pode estar LOW ou HIGH.
-                Servomotor1 deve ser setado para estar alinhado com a chapa de referência  (0 graus em relação a chapa)
-                Servomotor2 deve ser setado para controlar a altura da pinça em relação ao eixo vertical (nao deve chegar no limite)
-
-    Terceiro Estado: Quando a maquina estiver no lugar de Carregamento, o posicionador deve ser levado até a posição de CORTE;
-
-               SensorDeBlister deve estar em HIGH para indicar que a pinça esta posicionada corretamente
-               MotorDePasso do eixo X e o MotorDePasso do eixo Y devem ir para a posição carregamento (15,10)
-               SensorFimdeCurso X1 deve estar LOW.
-               SensorFimdeCurso X2 deve estar LOW.
-               SensorFimdeCurso Y1 deve estar LOW.
-               SensorFimdeCurso Y2 pode estar LOW ou HIGH.
-               Servomotor1 continua com o mesmo valor do estado 2
-               Servomotor2 continua com o mesmo valor do estado 2
-
-    Quarto Estado: Quando a maquina estiver no lugar de CORTE, o posicionador deve ser percorrer uma matriz;
-
-               SensorDeBlister deve estar em LOW
-               SensorFimdeCurso X1 deve estar LOW.
-               SensorFimdeCurso X2 deve estar LOW.
-               SensorFimdeCurso Y1 deve estar LOW.
-               SensorFimdeCurso Y2 pode estar LOW ou HIGH.
-               MotorDePasso do eixo X e o MotorDePasso do eixo Y devem SER SETADOS PARA PERCORRER UMA MATRIZ (X,Y) que a cada iteração aciona o
-               motor da FACA e seu SensorFimDeCursoFACA e, na ultima iteração
-               Servomotor1 continua com o mesmo valor do estado 2
-               Servomotor2 continua com o mesmo valor do estado 2
-
-     Quinto Estado: Quando a maquina estiver no lugar de CORTE e, terminar a iteração o posicionador deve ser levado para a posição de DESCARTE;
-               SensorDeBlister deve estar em LOW
-               SensorFimdeCurso X1 deve estar LOW.
-               SensorFimdeCurso X2 deve estar LOW.
-               SensorFimdeCurso Y1 deve estar LOW.
-               SensorFimdeCurso Y2 pode estar LOW ou HIGH.
-               MotorDePasso do eixo X e o MotorDePasso do eixo Y devem ir para a posição de DESCARTE (45,45)
-               Servomotor1 continua com o mesmo valor do estado 2
-               Servomotor2 continua com o mesmo valor do estado 1
-
-               RETORNAR AO PRIMEIRO ESTADO
-    */
+   
 
 
 
